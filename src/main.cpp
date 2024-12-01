@@ -1,14 +1,12 @@
 #include <algorithm>
 #include <bitset>
-#include <cmath>
-#include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 #include <string>
 
 using namespace std;
 
-// Функция для проверки корректности введенного числа
+// Функция проверки корректности числа в заданной системе счисления
 bool isValidNumber(const string &num, int base)
 {
     for (char c : num) {
@@ -21,23 +19,23 @@ bool isValidNumber(const string &num, int base)
     return true;
 }
 
-// Функция для перевода числа из любой системы счисления в десятичную (основание от 2 до 16)
+// Функция перевода числа из заданной системы счисления в десятичную
 int toDecimal(const string &num, int base)
 {
     int result = 0;
     bool isNegative = num[0] == '-';
-    int start = isNegative || num[0] == '+' ? 1 : 0;
+    size_t start = (isNegative || num[0] == '+') ? 1 : 0;
 
     for (size_t i = start; i < num.size(); ++i) {
         char c = toupper(num[i]);
         int digit = isdigit(c) ? c - '0' : c - 'A' + 10;
         result = result * base + digit;
     }
+
     return isNegative ? -result : result;
 }
 
-// Функция для перевода числа из десятичной системы счисления в произвольную (основание от 2 до
-// 16)
+// Функция перевода числа из десятичной системы в заданную систему счисления
 string fromDecimal(int num, int base)
 {
     if (num == 0)
@@ -60,72 +58,73 @@ string fromDecimal(int num, int base)
     return result;
 }
 
-// Функция для вывода прямого кода
+// Функция формирования двоичного представления числа в виде прямого кода
 string toDirectCode(int num)
 {
     if (num == 0)
-        return "0000"; // Для 0 просто вернуть 4 бита
+        return "0000"; // Для 0 минимальная ширина - 4 бита
 
-    bool isNegative = num < 0;
-    num = abs(num);
+    num = abs(num); // Работаем с модулем числа
 
-    // Перевод числа в двоичную строку
+    // Определение минимальной ширины для прямого кода
+    int bitWidth = 4;
+    if (num >= 8)
+        bitWidth = 8;
+    if (num >= 128)
+        bitWidth = 16;
+    if (num >= 32768)
+        bitWidth = 32;
+
+    // Генерация двоичной строки фиксированной ширины
     string binary = bitset<32>(num).to_string();
+    binary = binary.substr(32 - bitWidth);
 
-    // Сократить ведущие нули
-    size_t firstOne = binary.find('1');
-    binary = binary.substr(firstOne);
-
-    // Приведение к кратной 4 длине
-    while (binary.size() % 4 != 0) {
-        binary = '0' + binary;
-    }
-
-    // Для отрицательных чисел возвращаем прямой код
-    string directCode = (isNegative ? "ПК " : "") + binary;
-    return directCode;
+    return binary;
 }
 
 int main()
 {
     try {
-        // Ввод исходной и конечной систем счисления
+        // Ввод систем счисления
         int fromBase, toBase;
         cout << "Введите исходную систему счисления (2-16): ";
         cin >> fromBase;
-        if (fromBase < 2 || fromBase > 16)
-            throw invalid_argument("Неверная исходная система счисления!");
+        if (fromBase < 2 || fromBase > 16) {
+            throw invalid_argument("Ошибка: Неверная исходная система счисления!");
+        }
 
         cout << "Введите конечную систему счисления (2-16): ";
         cin >> toBase;
-        if (toBase < 2 || toBase > 16)
-            throw invalid_argument("Неверная конечная система счисления!");
+        if (toBase < 2 || toBase > 16) {
+            throw invalid_argument("Ошибка: Неверная конечная система счисления!");
+        }
 
-        // Ввод числа в исходной системе счисления
+        // Ввод числа
         string num;
         cout << "Введите число в исходной системе счисления: ";
         cin >> num;
 
-        if (!isValidNumber(num, fromBase))
-            throw invalid_argument("Введено некорректное число!");
+        if (!isValidNumber(num, fromBase)) {
+            throw invalid_argument("Ошибка: Введено некорректное число!");
+        }
 
-        // Перевод числа в десятичную систему счисления
+        // Перевод в десятичную систему
         int decimal = toDecimal(num, fromBase);
 
-        // Перевод числа из десятичной системы счисления в заданную
+        // Перевод в целевую систему
         string result = fromDecimal(decimal, toBase);
 
+        // Вывод результата
         cout << "Число в конечной системе счисления: " << result << endl;
 
-        // Дополнительный вывод для двоичной системы счисления
+        // Дополнительный вывод для двоичной системы (прямой код)
         if (toBase == 2) {
             cout << "Представление в виде прямого кода (ПК): " << toDirectCode(decimal) << endl;
         }
-
     } catch (const invalid_argument &e) {
-        cerr << "Ошибка: " << e.what() << endl;
+        cerr << e.what() << endl;
     } catch (const exception &e) {
-        cerr << "Непредвиденная ошибка: " << e.what() << endl;
+        cerr << "Ошибка: " << e.what() << endl;
     }
 
     return 0;

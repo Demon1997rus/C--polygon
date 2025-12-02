@@ -144,6 +144,8 @@ int minimumPushes(string word);
 
 int countTrapezoids(vector<vector<int>> &points);
 
+int minOperations(vector<int> &nums);
+
 /*!
  * \brief The MyStack class - класс реализовывает функционал стека с дополнительной функций max,
  * которая показывает максимальное число в стеке за O(1)

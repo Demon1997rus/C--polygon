@@ -2570,4 +2570,25 @@ int countTrapezoids(vector<vector<int>> &points)
     return ans;
 }
 
+/*!
+ * \brief minOperations - Вам задан целочисленный массив nums (с индексом 0).
+ * За одну операцию вы можете выбрать элемент массива и увеличить его на 1.
+ * Например, если nums = [1,2,3], вы можете увеличить nums[1], чтобы получить nums = [1,3,3].
+ * Возвращает минимальное количество операций, необходимое для строгого увеличения nums.
+ * Массив nums строго увеличивается, если nums[i] < nums[i+1] для всех 0 <= i < nums.size() - 1.
+ * Массив длиной 1 тривиально строго увеличивается.
+ */
+int minOperations(vector<int> &nums)
+{
+    using size_type = vector<int>::size_type;
+    int ans = 0;
+    for (size_type i = 1; i < nums.size(); ++i) {
+        if (nums[i - 1] < nums[i]) {
+            continue;
+        }
+        ans += nums[i - 1] - nums[i] + 1;
+        nums[i] = nums[i - 1] + 1;
+    }
+    return ans;
+}
 }

@@ -623,4 +623,19 @@ void Solution::countTrapezoids()
     QCOMPARE(rdi::countTrapezoids(test1.first), test1.second);
     QCOMPARE(rdi::countTrapezoids(test2.first), test2.second);
 }
+
+void Solution::minOperations()
+{
+    using Params = vector<int>;
+    using Result = int;
+    using Test = pair<Params, Result>;
+
+    Test test1 = {{1, 1, 1}, 3};
+    Test test2 = {{1, 5, 2, 4, 1}, 14};
+    Test test3 = {{8}, 0};
+
+    QCOMPARE(rdi::minOperations(test1.first), test1.second);
+    QCOMPARE(rdi::minOperations(test2.first), test2.second);
+    QCOMPARE(rdi::minOperations(test3.first), test3.second);
+}
 }}

@@ -42,6 +42,7 @@ private slots:
     void findSubsequences();
     void minimumPushes();
     void countTrapezoids();
+    void minOperations();
 };
 }}
 

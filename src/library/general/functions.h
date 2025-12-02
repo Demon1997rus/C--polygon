@@ -52,7 +52,7 @@ auto sum(T1 first, T2 second) -> decltype(first + second)
 }
 
 template <class T, class... Args>
-inline std::unique_ptr<T> make_unique(Args &&... args)
+inline std::unique_ptr<T> make_unique(Args &&...args)
 {
     return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }

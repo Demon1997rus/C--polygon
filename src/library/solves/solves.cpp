@@ -4,6 +4,10 @@
 
 namespace rdi {
 
+namespace {
+constexpr int MOD = 1e9 + 7;
+}
+
 // medium level
 vector<vector<int>> threeSum(vector<int> &nums)
 {
@@ -2540,4 +2544,30 @@ int minimumPushes(string word)
     }
     return ans;
 }
+
+/*!
+ * \brief countTrapezoids - Вам задан двумерный целочисленный массив точек,
+ * где точки[i] = [xi,yi] представляют координаты i-й точки на декартовой плоскости.
+ * Горизонтальная трапеция - это выпуклый четырехугольник, по крайней мере, с одной парой
+ * горизонтальных сторон (т.е. параллельных оси x). Две прямые параллельны тогда и только тогда,
+ * когда они имеют одинаковый наклон. Возвращает количество уникальных горизонтальных трапеций,
+ * которые можно сформировать, выбрав любые четыре различные точки из множества точек. Поскольку
+ * ответ может быть очень большим, верните его по модулю 10^9 + 7.
+ */
+int countTrapezoids(vector<vector<int>> &points)
+{
+    unordered_map<int, int> cnt;
+    for (const auto &p : points) {
+        ++cnt[p[1]];
+    }
+
+    long long ans = 0, s = 0;
+    for (const auto &[_, v] : cnt) {
+        long long t = (static_cast<long long>(v) * (v - 1)) >> 1;
+        ans = (ans + s * t) % MOD;
+        s += t;
+    }
+    return ans;
+}
+
 }

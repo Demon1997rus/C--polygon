@@ -41,6 +41,7 @@ private slots:
     void maxProduct();
     void findSubsequences();
     void minimumPushes();
+    void countTrapezoids();
 };
 }}
 

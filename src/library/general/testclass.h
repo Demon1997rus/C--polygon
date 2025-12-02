@@ -12,6 +12,9 @@ class TestClass {
     typedef type_test *pointer;
 
 public:
+    void test() {}
+    void test() const {}
+
     TestClass() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
 
     TestClass(const type_test &test) : __test(test)
@@ -124,9 +127,15 @@ public:
     }
 
     template <class... Args>
-    static std::shared_ptr<TestClass<type_test>> create(Args &&... args)
+    static std::shared_ptr<TestClass<type_test>> make_shared(Args &&...args)
     {
         return std::make_shared<TestClass<type_test>>(std::forward<Args>(args)...);
+    }
+
+    template <class... Args>
+    static std::unique_ptr<TestClass<type_test>> make_unique(Args &&...args)
+    {
+        return std::make_unique<TestClass<type_test>>(std::forward<Args>(args)...);
     }
 
 private:

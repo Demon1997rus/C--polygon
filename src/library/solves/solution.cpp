@@ -610,4 +610,17 @@ void Solution::minimumPushes()
     QCOMPARE(rdi::minimumPushes(test2.first), test2.second);
     QCOMPARE(rdi::minimumPushes(test3.first), test3.second);
 }
+
+void Solution::countTrapezoids()
+{
+    using Params = vector<vector<int>>;
+    using Result = int;
+    using Test = pair<Params, Result>;
+
+    Test test1 = {{{1, 0}, {2, 0}, {3, 0}, {2, 2}, {3, 2}}, 3};
+    Test test2 = {{{0, 0}, {1, 0}, {0, 1}, {2, 1}}, 1};
+
+    QCOMPARE(rdi::countTrapezoids(test1.first), test1.second);
+    QCOMPARE(rdi::countTrapezoids(test2.first), test2.second);
+}
 }}

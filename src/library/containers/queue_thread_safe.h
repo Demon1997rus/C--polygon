@@ -24,7 +24,7 @@ public:
     void push(value_type &&val) { emplace(boost::move(val)); }
 
     template <class... Args>
-    void emplace(Args &&... args)
+    void emplace(Args &&...args)
     {
         boost::unique_lock<mutex_type> lock(m_mtx);
         m_container.emplace(boost::forward<Args>(args)...);

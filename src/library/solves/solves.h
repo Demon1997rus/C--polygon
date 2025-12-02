@@ -16,8 +16,8 @@
 
 #include <boost/sort/spreadsort/integer_sort.hpp>
 
-#include "../typenodes/listnode.h"
 #include "../../library/general/functions.h"
+#include "../typenodes/listnode.h"
 
 using namespace std;
 
@@ -141,6 +141,8 @@ pair<int, int> getPairAscendingOrDescending(const vector<int> &nums);
 pair<int, int> getPairTargetSumSubArray(const vector<int> &nums, int target);
 
 int minimumPushes(string word);
+
+int countTrapezoids(vector<vector<int>> &points);
 
 /*!
  * \brief The MyStack class - класс реализовывает функционал стека с дополнительной функций max,
